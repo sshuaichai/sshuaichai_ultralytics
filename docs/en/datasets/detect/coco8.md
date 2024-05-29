@@ -1,31 +1,31 @@
 ---
 comments: true
-description: Discover the benefits of using the practical and diverse COCO8 dataset for object detection model testing. Learn to configure and use it via Ultralytics HUB and YOLOv8.
-keywords: Ultralytics, COCO8 dataset, object detection, model testing, dataset configuration, detection approaches, sanity check, training pipelines, YOLOv8
+description: 了解使用实用且多样化的COCO8数据集进行目标检测模型测试的好处。学习通过Ultralytics HUB和YOLOv8配置和使用该数据集的方法。
+keywords: Ultralytics, COCO8数据集, 目标检测, 模型测试, 数据集配置, 检测方法, 健全性检查, 训练流水线, YOLOv8
 ---
 
-# COCO8 Dataset
+# COCO8数据集
 
-## Introduction
+## 简介
 
-[Ultralytics](https://ultralytics.com) COCO8 is a small, but versatile object detection dataset composed of the first 8 images of the COCO train 2017 set, 4 for training and 4 for validation. This dataset is ideal for testing and debugging object detection models, or for experimenting with new detection approaches. With 8 images, it is small enough to be easily manageable, yet diverse enough to test training pipelines for errors and act as a sanity check before training larger datasets.
+[Ultralytics](https://ultralytics.com) COCO8 是一个小型但功能多样的目标检测数据集，由COCO 2017训练集的前8张图像组成，其中4张用于训练，4张用于验证。这个数据集非常适合用于测试和调试目标检测模型，或用于实验新的检测方法。由于只有8张图像，它足够小，可以轻松管理，但又足够多样化，可以测试训练流水线中的错误，并在训练更大数据集之前进行健全性检查。
 
 <p align="center">
   <br>
   <iframe loading="lazy" width="720" height="405" src="https://www.youtube.com/embed/uDrn9QZJ2lk"
-    title="YouTube video player" frameborder="0"
+    title="YouTube视频播放器" frameborder="0"
     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
     allowfullscreen>
   </iframe>
   <br>
-  <strong>Watch:</strong> Ultralytics COCO Dataset Overview
+  <strong>观看：</strong>Ultralytics COCO数据集概述
 </p>
 
-This dataset is intended for use with Ultralytics [HUB](https://hub.ultralytics.com) and [YOLOv8](https://github.com/ultralytics/ultralytics).
+此数据集旨在与Ultralytics [HUB](https://hub.ultralytics.com)和[YOLOv8](https://github.com/ultralytics/ultralytics)一起使用。
 
-## Dataset YAML
+## 数据集 YAML
 
-A YAML (Yet Another Markup Language) file is used to define the dataset configuration. It contains information about the dataset's paths, classes, and other relevant information. In the case of the COCO8 dataset, the `coco8.yaml` file is maintained at [https://github.com/ultralytics/ultralytics/blob/main/ultralytics/cfg/datasets/coco8.yaml](https://github.com/ultralytics/ultralytics/blob/main/ultralytics/cfg/datasets/coco8.yaml).
+YAML（Yet Another Markup Language）文件用于定义数据集配置。它包含有关数据集路径、类别和其他相关信息。对于COCO8数据集，`coco8.yaml`文件位于[https://github.com/ultralytics/ultralytics/blob/main/ultralytics/cfg/datasets/coco8.yaml](https://github.com/ultralytics/ultralytics/blob/main/ultralytics/cfg/datasets/coco8.yaml)。
 
 !!! Example "ultralytics/cfg/datasets/coco8.yaml"
 
@@ -33,44 +33,44 @@ A YAML (Yet Another Markup Language) file is used to define the dataset configur
     --8<-- "ultralytics/cfg/datasets/coco8.yaml"
     ```
 
-## Usage
+## 使用方法
 
-To train a YOLOv8n model on the COCO8 dataset for 100 epochs with an image size of 640, you can use the following code snippets. For a comprehensive list of available arguments, refer to the model [Training](../../modes/train.md) page.
+要在COCO8数据集上训练一个YOLOv8n模型100个epochs，图像尺寸为640，可以使用以下代码样例。有关可用参数的详细列表，请参阅模型的[训练](../../modes/train.md)页面。
 
-!!! Example "Train Example"
+!!! Example "训练示例"
 
     === "Python"
 
         ```python
         from ultralytics import YOLO
 
-        # Load a model
-        model = YOLO('yolov8n.pt')  # load a pretrained model (recommended for training)
+        # 加载模型
+        model = YOLO('yolov8n.pt')  # 加载预训练模型（推荐用于训练）
 
-        # Train the model
+        # 训练模型
         results = model.train(data='coco8.yaml', epochs=100, imgsz=640)
         ```
 
     === "CLI"
 
         ```bash
-        # Start training from a pretrained *.pt model
+        # 从预训练的 *.pt 模型开始训练
         yolo detect train data=coco8.yaml model=yolov8n.pt epochs=100 imgsz=640
         ```
 
-## Sample Images and Annotations
+## 示例图像和注释
 
-Here are some examples of images from the COCO8 dataset, along with their corresponding annotations:
+以下是COCO8数据集中的一些图像示例及其对应的注释：
 
-<img src="https://user-images.githubusercontent.com/26833433/236818348-e6260a3d-0454-436b-83a9-de366ba07235.jpg" alt="Dataset sample image" width="800">
+<img src="https://user-images.githubusercontent.com/26833433/236818348-e6260a3d-0454-436b-83a9-de366ba07235.jpg" alt="数据集示例图像" width="800">
 
-- **Mosaiced Image**: This image demonstrates a training batch composed of mosaiced dataset images. Mosaicing is a technique used during training that combines multiple images into a single image to increase the variety of objects and scenes within each training batch. This helps improve the model's ability to generalize to different object sizes, aspect ratios, and contexts.
+- **拼接图像**：这张图像展示了由拼接数据集图像组成的训练批次。拼接是一种在训练过程中使用的技术，将多张图像组合成一张图像，以增加每个训练批次中对象和场景的多样性。这有助于提高模型在不同对象大小、纵横比和上下文中的泛化能力。
 
-The example showcases the variety and complexity of the images in the COCO8 dataset and the benefits of using mosaicing during the training process.
+此示例展示了COCO8数据集中图像的多样性和复杂性，以及在训练过程中使用拼接的好处。
 
-## Citations and Acknowledgments
+## 引用和致谢
 
-If you use the COCO dataset in your research or development work, please cite the following paper:
+如果您在研究或开发工作中使用了COCO数据集，请引用以下论文：
 
 !!! Quote ""
 
@@ -87,4 +87,4 @@ If you use the COCO dataset in your research or development work, please cite th
         }
         ```
 
-We would like to acknowledge the COCO Consortium for creating and maintaining this valuable resource for the computer vision community. For more information about the COCO dataset and its creators, visit the [COCO dataset website](https://cocodataset.org/#home).
+我们要感谢COCO联盟为计算机视觉社区创建并维护这一宝贵资源。有关COCO数据集及其创建者的更多信息，请访问[COCO数据集网站](https://cocodataset.org/#home)。
