@@ -6,23 +6,23 @@ keywords: Ultralytics, African Wildlife dataset, object detection, YOLO, YOLO mo
 
 # African Wildlife Dataset
 
-This dataset showcases four common animal classes typically found in South African nature reserves. It includes images of African wildlife such as buffalo, elephant, rhino, and zebra, providing valuable insights into their characteristics. Essential for training computer vision algorithms, this dataset aids in identifying animals in various habitats, from zoos to forests, and supports wildlife research.
+该数据集展示了通常在南非自然保护区发现的四种常见动物类，包括非洲野生动物如水牛、大象、犀牛和斑马，提供了关于它们特征的宝贵见解。对于训练计算机视觉算法来说，这个数据集有助于在各种栖息地（从动物园到森林）中识别动物，并支持野生动物研究。
 
-## Dataset Structure
+## 数据集结构
 
-The African wildlife objects detection dataset is split into three subsets:
+非洲野生动物目标检测数据集分为三个子集：
 
-- **Training set**: Contains 1052 images, each with corresponding annotations.
-- **Validation set**: Includes 225 images, each with paired annotations.
-- **Testing set**: Comprises 227 images, each with paired annotations.
+- **训练集**：包含1052张图像，每张图像都有相应的注释。
+- **验证集**：包括225张图像，每张图像都有对应的注释。
+- **测试集**：包含227张图像，每张图像都有相应的注释。
 
-## Applications
+## 应用
 
-This dataset can be applied in various computer vision tasks such as object detection, object tracking, and research. Specifically, it can be used to train and evaluate models for identifying African wildlife objects in images, which can have applications in wildlife conservation, ecological research, and monitoring efforts in natural reserves and protected areas. Additionally, it can serve as a valuable resource for educational purposes, enabling students and researchers to study and understand the characteristics and behaviors of different animal species.
+该数据集可以应用于各种计算机视觉任务，如目标检测、目标跟踪和研究。具体来说，它可以用于训练和评估模型，以识别图像中的非洲野生动物对象，这可以在野生动物保护、生态研究和自然保护区及保护区的监测工作中发挥作用。此外，它还可以作为教育资源，使学生和研究人员能够研究和了解不同动物物种的特征和行为。
 
-## Dataset YAML
+## 数据集 YAML
 
-A YAML (Yet Another Markup Language) file defines the dataset configuration, including paths, classes, and other pertinent details. For the African wildlife dataset, the `african-wildlife.yaml` file is located at [https://github.com/ultralytics/ultralytics/blob/main/ultralytics/cfg/datasets/african-wildlife.yaml](https://github.com/ultralytics/ultralytics/blob/main/ultralytics/cfg/datasets/african-wildlife.yaml).
+YAML（Yet Another Markup Language）文件定义了数据集配置，包括路径、类别和其他相关细节。对于非洲野生动物数据集，`african-wildlife.yaml` 文件位于 [https://github.com/ultralytics/ultralytics/blob/main/ultralytics/cfg/datasets/african-wildlife.yaml](https://github.com/ultralytics/ultralytics/blob/main/ultralytics/cfg/datasets/african-wildlife.yaml)。
 
 !!! Example "ultralytics/cfg/datasets/african-wildlife.yaml"
 
@@ -30,62 +30,62 @@ A YAML (Yet Another Markup Language) file defines the dataset configuration, inc
     --8<-- "ultralytics/cfg/datasets/african-wildlife.yaml"
     ```
 
-## Usage
+## 使用方法
 
-To train a YOLOv8n model on the African wildlife dataset for 100 epochs with an image size of 640, use the provided code samples. For a comprehensive list of available parameters, refer to the model's [Training](../../modes/train.md) page.
+要在非洲野生动物数据集上训练一个 YOLOv8n 模型100个epoch，图像尺寸为640，可以使用以下代码样例。有关可用参数的详细列表，请参阅模型的[训练](../../modes/train.md)页面。
 
-!!! Example "Train Example"
+!!! Example "训练示例"
 
     === "Python"
 
         ```python
         from ultralytics import YOLO
 
-        # Load a model
-        model = YOLO('yolov8n.pt')  # load a pretrained model (recommended for training)
+        # 加载模型
+        model = YOLO('yolov8n.pt')  # 加载预训练模型（推荐用于训练）
 
-        # Train the model
+        # 训练模型
         results = model.train(data='african-wildlife.yaml', epochs=100, imgsz=640)
         ```
 
     === "CLI"
 
         ```bash
-        # Start training from a pretrained *.pt model
+        # 从预训练的 *.pt 模型开始训练
         yolo detect train data=african-wildlife.yaml model=yolov8n.pt epochs=100 imgsz=640
         ```
 
-!!! Example "Inference Example"
+!!! Example "推理示例"
 
     === "Python"
 
         ```python
         from ultralytics import YOLO
 
-        # Load a model
-        model = YOLO('path/to/best.pt')  # load a brain-tumor fine-tuned model
+        # 加载模型
+        model = YOLO('path/to/best.pt')  # 加载微调后的模型
 
-        # Inference using the model
+        # 使用模型进行推理
         results = model.predict("https://ultralytics.com/assets/african-wildlife-sample.jpg")
         ```
 
     === "CLI"
 
         ```bash
-        # Start prediction with a finetuned *.pt model
+        # 使用微调后的 *.pt 模型进行预测
         yolo detect predict model='path/to/best.pt' imgsz=640 source="https://ultralytics.com/assets/african-wildlife-sample.jpg"
         ```
 
-## Sample Images and Annotations
+## 示例图像和注释
 
-The African wildlife dataset comprises a wide variety of images showcasing diverse animal species and their natural habitats. Below are examples of images from the dataset, each accompanied by its corresponding annotations.
+非洲野生动物数据集包含各种展示不同动物物种及其自然栖息地的图像。以下是一些数据集中的图像示例，每张图像都有相应的注释。
 
 ![African wildlife dataset sample image](https://github.com/RizwanMunawar/RizwanMunawar/assets/62513924/919f8190-ccf3-4a96-a5f1-55d9eebc77ec)
 
-- **Mosaiced Image**: Here, we present a training batch consisting of mosaiced dataset images. Mosaicing, a training technique, combines multiple images into one, enriching batch diversity. This method helps enhance the model's ability to generalize across different object sizes, aspect ratios, and contexts.
+- **拼接图像**：这里展示的是一个由拼接数据集图像组成的训练批次。拼接是一种训练技术，将多张图像合并为一张图像，丰富了批次的多样性。这种方法有助于增强模型在不同对象尺寸、纵横比和上下文中的泛化能力。
 
-This example illustrates the variety and complexity of images in the African wildlife dataset, emphasizing the benefits of including mosaicing during the training process.
+此示例展示了非洲野生动物数据集中图像的多样性和复杂性，强调了在训练过程中包含拼接的好处。
 
-## Citations and Acknowledgments
+## 引用和致谢
 
-The dataset has been released available under the [AGPL-3.0 License](https://github.com/ultralytics/ultralytics/blob/main/LICENSE).
+该数据集已根据 [AGPL-3.0 许可证](https://github.com/ultralytics/ultralytics/blob/main/LICENSE) 发布。
