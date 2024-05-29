@@ -58,6 +58,26 @@ YAML（Yet Another Markup Language）文件用于定义数据集配置。它包�
         yolo detect train data=coco8.yaml model=yolov8n.pt epochs=100 imgsz=640
         ```
 
+具体来说，这个命令的含义如下：
+
+yolo detect train：表示使用 YOLO 模型进行目标检测任务，并且进入训练模式。
+data=coco8.yaml：指定数据集的配置文件，这里使用的是 coco8.yaml。该文件通常包含数据集路径、类别等信息。
+model=yolov8n.pt：指定预训练模型的路径，这里使用的是 yolov8n.pt。
+epochs=100：指定训练的轮数，这里设置为 100 轮。
+imgsz=640：指定输入图像的大小，这里设置为 640x640 像素。
+
+YOLOv8 的训练配置
+YOLOv8 的训练配置通常通过命令行参数和配置文件来设置。配置文件通常是一个 YAML 文件，用于指定数据集路径、类别等信息。
+
+配置文件示例 (coco8.yaml)
+```yaml
+train: /path/to/train/images
+val: /path/to/val/images
+
+nc: 80
+names: ['person', 'bicycle', 'car', 'motorcycle', 'airplane', 'bus', 'train', 'truck', 'boat', 'traffic light', 'fire hydrant', 'stop sign', 'parking meter', 'bench', 'bird', 'cat', 'dog', 'horse', 'sheep', 'cow', 'elephant', 'bear', 'zebra', 'giraffe', 'backpack', 'umbrella', 'handbag', 'tie', 'suitcase', 'frisbee', 'skis', 'snowboard', 'sports ball', 'kite', 'baseball bat', 'baseball glove', 'skateboard', 'surfboard', 'tennis racket', 'bottle', 'wine glass', 'cup', 'fork', 'knife', 'spoon', 'bowl', 'banana', 'apple', 'sandwich', 'orange', 'broccoli', 'carrot', 'hot dog', 'pizza', 'donut', 'cake', 'chair', 'couch', 'potted plant', 'bed', 'dining table', 'toilet', 'tv', 'laptop', 'mouse', 'remote', 'keyboard', 'cell phone', 'microwave', 'oven', 'toaster', 'sink', 'refrigerator', 'book', 'clock', 'vase', 'scissors', 'teddy bear', 'hair drier', 'toothbrush']
+```
+
 ## 示例图像和注释
 
 以下是COCO8数据集中的一些图像示例及其对应的注释：
