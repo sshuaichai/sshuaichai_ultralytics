@@ -1,15 +1,15 @@
-# Ultralytics YOLO 🚀, AGPL-3.0 license
-# Global Wheat 2020 dataset https://www.global-wheat.com/ by University of Saskatchewan
-# Documentation: https://docs.ultralytics.com/datasets/detect/globalwheat2020/
-# Example usage: yolo train data=GlobalWheat2020.yaml
-# parent
+# Ultralytics YOLO 🚀, AGPL-3.0 许可证
+# Global Wheat 2020 数据集 https://www.global-wheat.com/ 由萨斯喀彻温大学提供
+# 文档：https://docs.ultralytics.com/datasets/detect/globalwheat2020/
+# 示例用法：yolo train data=GlobalWheat2020.yaml
+# 父目录
 # ├── ultralytics
 # └── datasets
-#     └── GlobalWheat2020  ← downloads here (7.0 GB)
+#     └── GlobalWheat2020  ← 下载到此处 (7.0 GB)
 
-# Train/val/test sets as 1) dir: path/to/imgs, 2) file: path/to/imgs.txt, or 3) list: [path/to/imgs1, path/to/imgs2, ..]
-path: ../datasets/GlobalWheat2020 # dataset root dir
-train: # train images (relative to 'path') 3422 images
+# 训练/验证/测试集可以是 1) 目录：path/to/imgs, 2) 文件：path/to/imgs.txt, 或 3) 列表：[path/to/imgs1, path/to/imgs2, ..]
+path: ../datasets/GlobalWheat2020 # 数据集根目录
+train: # 训练图像（相对于 'path'）3422 张图像
   - images/arvalis_1
   - images/arvalis_2
   - images/arvalis_3
@@ -17,37 +17,37 @@ train: # train images (relative to 'path') 3422 images
   - images/rres_1
   - images/inrae_1
   - images/usask_1
-val: # val images (relative to 'path') 748 images (WARNING: train set contains ethz_1)
+val: # 验证图像（相对于 'path'）748 张图像 (警告: 训练集中包含 ethz_1)
   - images/ethz_1
-test: # test images (optional) 1276 images
+test: # 测试图像（可选）1276 张图像
   - images/utokyo_1
   - images/utokyo_2
   - images/nau_1
   - images/uq_1
 
-# Classes
+# 类别
 names:
   0: wheat_head
 
-# Download script/URL (optional) ---------------------------------------------------------------------------------------
+# 下载脚本/URL（可选）---------------------------------------------------------------------------------------
 download: |
   from ultralytics.utils.downloads import download
   from pathlib import Path
 
-  # Download
-  dir = Path(yaml['path'])  # dataset root dir
+  # 下载
+  dir = Path(yaml['path'])  # 数据集根目录
   urls = ['https://zenodo.org/record/4298502/files/global-wheat-codalab-official.zip',
           'https://github.com/ultralytics/yolov5/releases/download/v1.0/GlobalWheat2020_labels.zip']
   download(urls, dir=dir)
 
-  # Make Directories
+  # 创建目录
   for p in 'annotations', 'images', 'labels':
       (dir / p).mkdir(parents=True, exist_ok=True)
 
-  # Move
+  # 移动
   for p in 'arvalis_1', 'arvalis_2', 'arvalis_3', 'ethz_1', 'rres_1', 'inrae_1', 'usask_1', \
            'utokyo_1', 'utokyo_2', 'nau_1', 'uq_1':
-      (dir / 'global-wheat-codalab-official' / p).rename(dir / 'images' / p)  # move to /images
-      f = (dir / 'global-wheat-codalab-official' / p).with_suffix('.json')  # json file
+      (dir / 'global-wheat-codalab-official' / p).rename(dir / 'images' / p)  # 移动到 /images
+      f = (dir / 'global-wheat-codalab-official' / p).with_suffix('.json')  # json 文件
       if f.exists():
-          f.rename((dir / 'annotations' / p).with_suffix('.json'))  # move to /annotations
+          f.rename((dir / 'annotations' / p).with_suffix('.json'))  # 移动到 /annotations
