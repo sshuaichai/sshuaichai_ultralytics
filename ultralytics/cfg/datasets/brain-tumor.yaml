@@ -1,22 +1,22 @@
-# Ultralytics YOLO 🚀, AGPL-3.0 license
-# Brain-tumor dataset by Ultralytics
-# Documentation: https://docs.ultralytics.com/datasets/detect/brain-tumor/
-# Example usage: yolo train data=brain-tumor.yaml
-# parent
+# Ultralytics YOLO 🚀, AGPL-3.0 许可证
+# Brain-tumor 数据集由 Ultralytics 提供
+# 文档：https://docs.ultralytics.com/datasets/detect/brain-tumor/
+# 示例用法：yolo train data=brain-tumor.yaml
+# 父目录
 # ├── ultralytics
 # └── datasets
-#     └── brain-tumor  ← downloads here (4.05 MB)
+#     └── brain-tumor  ← 下载到此处 (4.05 MB)
 
-# Train/val/test sets as 1) dir: path/to/imgs, 2) file: path/to/imgs.txt, or 3) list: [path/to/imgs1, path/to/imgs2, ..]
-path: ../datasets/brain-tumor # dataset root dir
-train: train/images # train images (relative to 'path') 893 images
-val: valid/images # val images (relative to 'path') 223 images
-test: # test images (relative to 'path')
+# 训练/验证/测试集可以是 1) 目录：path/to/imgs, 2) 文件：path/to/imgs.txt, 或 3) 列表：[path/to/imgs1, path/to/imgs2, ..]
+path: ../datasets/brain-tumor # 数据集根目录
+train: train/images # 训练图像（相对于 'path'）893 张图像
+val: valid/images # 验证图像（相对于 'path'）223 张图像
+test: # 测试图像（相对于 'path'）
 
-# Classes
+# 类别
 names:
   0: negative
   1: positive
 
-# Download script/URL (optional)
+# 下载脚本/URL（可选）
 download: https://ultralytics.com/assets/brain-tumor.zip
