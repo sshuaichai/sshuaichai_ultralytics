@@ -106,8 +106,9 @@ SPPF time: 0.20780706405639648
 2. 数据增强技术
 YOLOv5采用了多种数据增强技术，以提高模型的泛化能力并减少过拟合。这些技术包括：
 YOLOv5 employs various data augmentation techniques to improve the model's ability to generalize and reduce overfitting. These techniques include:
-Mosaic 增强：一种图像处理技术，将四张训练图像组合成一张，鼓励目标检测模型更好地处理不同尺度和位移的目标。
+
 - **Mosaic Augmentation**: An image processing technique that combines four training images into one in ways that encourage object detection models to better handle various object scales and translations.
+Mosaic 增强：一种图像处理技术，将四张训练图像组合成一张，鼓励目标检测模型更好地处理不同尺度和位移的目标。
 
   ![mosaic](https://user-images.githubusercontent.com/31005897/159109235-c7aad8f2-1d4f-41f9-8d5f-b2fde6f2885e.png)
 
