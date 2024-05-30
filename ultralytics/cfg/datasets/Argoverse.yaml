@@ -1,19 +1,19 @@
-# Ultralytics YOLO 🚀, AGPL-3.0 license
-# Argoverse-HD dataset (ring-front-center camera) https://www.cs.cmu.edu/~mengtial/proj/streaming/ by Argo AI
-# Documentation: https://docs.ultralytics.com/datasets/detect/argoverse/
-# Example usage: yolo train data=Argoverse.yaml
-# parent
+# Ultralytics YOLO 🚀, AGPL-3.0 许可证
+# Argoverse-HD 数据集（环前中心摄像头）https://www.cs.cmu.edu/~mengtial/proj/streaming/ 由 Argo AI 提供
+# 文档：https://docs.ultralytics.com/datasets/detect/argoverse/
+# 示例用法：yolo train data=Argoverse.yaml
+# 父目录
 # ├── ultralytics
 # └── datasets
-#     └── Argoverse  ← downloads here (31.5 GB)
+#     └── Argoverse  ← 下载到此处 (31.5 GB)
 
-# Train/val/test sets as 1) dir: path/to/imgs, 2) file: path/to/imgs.txt, or 3) list: [path/to/imgs1, path/to/imgs2, ..]
-path: ../datasets/Argoverse # dataset root dir
-train: Argoverse-1.1/images/train/ # train images (relative to 'path') 39384 images
-val: Argoverse-1.1/images/val/ # val images (relative to 'path') 15062 images
-test: Argoverse-1.1/images/test/ # test images (optional) https://eval.ai/web/challenges/challenge-page/800/overview
+# 训练/验证/测试集可以是 1) 目录：path/to/imgs, 2) 文件：path/to/imgs.txt, 或 3) 列表：[path/to/imgs1, path/to/imgs2, ..]
+path: ../datasets/Argoverse # 数据集根目录
+train: Argoverse-1.1/images/train/ # 训练图像（相对于 'path'）39384 张图像
+val: Argoverse-1.1/images/val/ # 验证图像（相对于 'path'）15062 张图像
+test: Argoverse-1.1/images/test/ # 测试图像（可选）https://eval.ai/web/challenges/challenge-page/800/overview
 
-# Classes
+# 类别
 names:
   0: person
   1: bicycle
@@ -24,7 +24,7 @@ names:
   6: traffic_light
   7: stop_sign
 
-# Download script/URL (optional) ---------------------------------------------------------------------------------------
+# 下载脚本/URL（可选）---------------------------------------------------------------------------------------
 download: |
   import json
   from tqdm import tqdm
@@ -39,12 +39,12 @@ download: |
           img_name = a['images'][img_id]['name']
           img_label_name = f'{img_name[:-3]}txt'
 
-          cls = annot['category_id']  # instance class id
+          cls = annot['category_id']  # 实例类别ID
           x_center, y_center, width, height = annot['bbox']
-          x_center = (x_center + width / 2) / 1920.0  # offset and scale
-          y_center = (y_center + height / 2) / 1200.0  # offset and scale
-          width /= 1920.0  # scale
-          height /= 1200.0  # scale
+          x_center = (x_center + width / 2) / 1920.0  # 偏移和缩放
+          y_center = (y_center + height / 2) / 1200.0  # 偏移和缩放
+          width /= 1920.0  # 缩放
+          height /= 1200.0  # 缩放
 
           img_dir = set.parents[2] / 'Argoverse-1.1' / 'labels' / a['seq_dirs'][a['images'][annot['image_id']]['sid']]
           if not img_dir.exists():
@@ -60,15 +60,15 @@ download: |
               f.writelines(labels[k])
 
 
-  # Download 'https://argoverse-hd.s3.us-east-2.amazonaws.com/Argoverse-HD-Full.zip' (deprecated S3 link)
-  dir = Path(yaml['path'])  # dataset root dir
+  # 下载 'https://argoverse-hd.s3.us-east-2.amazonaws.com/Argoverse-HD-Full.zip'（已弃用的 S3 链接）
+  dir = Path(yaml['path'])  # 数据集根目录
   urls = ['https://drive.google.com/file/d/1st9qW3BeIwQsnR0t8mRpvbsSWIo16ACi/view?usp=drive_link']
-  print("\n\nWARNING: Argoverse dataset MUST be downloaded manually, autodownload will NOT work.")
-  print(f"WARNING: Manually download Argoverse dataset '{urls[0]}' to '{dir}' and re-run your command.\n\n")
+  print("\n\n警告：必须手动下载 Argoverse 数据集，自动下载将无法工作。")
+  print(f"警告：手动下载 Argoverse 数据集 '{urls[0]}' 到 '{dir}'，然后重新运行您的命令。\n\n")
   # download(urls, dir=dir)
 
-  # Convert
+  # 转换
   annotations_dir = 'Argoverse-HD/annotations/'
-  (dir / 'Argoverse-1.1' / 'tracking').rename(dir / 'Argoverse-1.1' / 'images')  # rename 'tracking' to 'images'
+  (dir / 'Argoverse-1.1' / 'tracking').rename(dir / 'Argoverse-1.1' / 'images')  # 将 'tracking' 重命名为 'images'
   for d in "train.json", "val.json":
-      argoverse2yolo(dir / annotations_dir / d)  # convert Argoverse annotations to YOLO labels
+      argoverse2yolo(dir / annotations_dir / d)  # 将 Argoverse 注释转换为 YOLO 标签
