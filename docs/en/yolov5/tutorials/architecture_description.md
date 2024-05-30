@@ -142,22 +142,22 @@ HSV 增强：对图像的色调、饱和度和明度进行随机变化。
 
 ## 3. Training Strategies
 3. 训练策略
+   
 YOLOv5采用了多种复杂的训练策略来提高模型的性能。这些策略包括：
-
-多尺度训练：在训练过程中，输入图像会在原始大小的0.5到1.5倍范围内随机缩放。
-AutoAnchor：这种策略优化了先验锚框，以匹配自定义数据中真实框的统计特性。
-预热和余弦学习率调度：一种调整学习率的方法，以提高模型性能。
-指数移动平均（EMA）：使用过去步骤的参数平均值来稳定训练过程并减少泛化误差的策略。
-混合精度训练：一种在半精度格式下执行操作的方法，减少内存使用并提高计算速度。
-超参数进化：自动调节超参数以实现最佳性能的策略。
 YOLOv5 applies several sophisticated training strategies to enhance the model's performance. They include:
 
 - **Multiscale Training**: The input images are randomly rescaled within a range of 0.5 to 1.5 times their original size during the training process.
+- 多尺度训练：在训练过程中，输入图像会在原始大小的0.5到1.5倍范围内随机缩放。
 - **AutoAnchor**: This strategy optimizes the prior anchor boxes to match the statistical characteristics of the ground truth boxes in your custom data.
+- AutoAnchor：这种策略优化了先验锚框，以匹配自定义数据中真实框的统计特性。
 - **Warmup and Cosine LR Scheduler**: A method to adjust the learning rate to enhance model performance.
+- 预热和余弦学习率调度：一种调整学习率的方法，以提高模型性能。
 - **Exponential Moving Average (EMA)**: A strategy that uses the average of parameters over past steps to stabilize the training process and reduce generalization error.
+- 指数移动平均（EMA）：使用过去步骤的参数平均值来稳定训练过程并减少泛化误差的策略。
 - **Mixed Precision Training**: A method to perform operations in half-precision format, reducing memory usage and enhancing computational speed.
+- 混合精度训练：一种在半精度格式下执行操作的方法，减少内存使用并提高计算速度。
 - **Hyperparameter Evolution**: A strategy to automatically tune hyperparameters to achieve optimal performance.
+- 超参数进化：自动调节超参数以实现最佳性能的策略。
 
 ## 4. Additional Features
 
