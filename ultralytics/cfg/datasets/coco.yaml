@@ -1,19 +1,19 @@
-# Ultralytics YOLO 🚀, AGPL-3.0 license
-# COCO 2017 dataset https://cocodataset.org by Microsoft
-# Documentation: https://docs.ultralytics.com/datasets/detect/coco/
-# Example usage: yolo train data=coco.yaml
-# parent
+# Ultralytics YOLO 🚀, AGPL-3.0 许可证
+# COCO 2017 数据集 https://cocodataset.org 由微软提供
+# 文档：https://docs.ultralytics.com/datasets/detect/coco/
+# 示例用法：yolo train data=coco.yaml
+# 父目录
 # ├── ultralytics
 # └── datasets
-#     └── coco  ← downloads here (20.1 GB)
+#     └── coco  ← 下载到此处 (20.1 GB)
 
-# Train/val/test sets as 1) dir: path/to/imgs, 2) file: path/to/imgs.txt, or 3) list: [path/to/imgs1, path/to/imgs2, ..]
-path: ../datasets/coco # dataset root dir
-train: train2017.txt # train images (relative to 'path') 118287 images
-val: val2017.txt # val images (relative to 'path') 5000 images
-test: test-dev2017.txt # 20288 of 40670 images, submit to https://competitions.codalab.org/competitions/20794
+# 训练/验证/测试集可以是 1) 目录：path/to/imgs, 2) 文件：path/to/imgs.txt, 或 3) 列表：[path/to/imgs1, path/to/imgs2, ..]
+path: ../datasets/coco # 数据集根目录
+train: train2017.txt # 训练图像（相对于 'path'）118287 张图像
+val: val2017.txt # 验证图像（相对于 'path'）5000 张图像
+test: test-dev2017.txt # 20288 张图像中的 40670 张图像，提交到 https://competitions.codalab.org/competitions/20794
 
-# Classes
+# 类别
 names:
   0: person
   1: bicycle
@@ -96,19 +96,19 @@ names:
   78: hair drier
   79: toothbrush
 
-# Download script/URL (optional)
+# 下载脚本/URL（可选）
 download: |
   from ultralytics.utils.downloads import download
   from pathlib import Path
 
-  # Download labels
-  segments = True  # segment or box labels
-  dir = Path(yaml['path'])  # dataset root dir
+  # 下载标签
+  segments = True  # 分割或盒标签
+  dir = Path(yaml['path'])  # 数据集根目录
   url = 'https://github.com/ultralytics/yolov5/releases/download/v1.0/'
-  urls = [url + ('coco2017labels-segments.zip' if segments else 'coco2017labels.zip')]  # labels
+  urls = [url + ('coco2017labels-segments.zip' if segments else 'coco2017labels.zip')]  # 标签
   download(urls, dir=dir.parent)
-  # Download data
-  urls = ['http://images.cocodataset.org/zips/train2017.zip',  # 19G, 118k images
-          'http://images.cocodataset.org/zips/val2017.zip',  # 1G, 5k images
-          'http://images.cocodataset.org/zips/test2017.zip']  # 7G, 41k images (optional)
+  # 下载数据
+  urls = ['http://images.cocodataset.org/zips/train2017.zip',  # 19G, 118k 图像
+          'http://images.cocodataset.org/zips/val2017.zip',  # 1G, 5k 图像
+          'http://images.cocodataset.org/zips/test2017.zip']  # 7G, 41k 图像（可选）
   download(urls, dir=dir / 'images', threads=3)
