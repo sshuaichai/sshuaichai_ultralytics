@@ -1,19 +1,19 @@
-# Ultralytics YOLO 🚀, AGPL-3.0 license
-# DOTA 1.0 dataset https://captain-whu.github.io/DOTA/index.html for object detection in aerial images by Wuhan University
-# Documentation: https://docs.ultralytics.com/datasets/obb/dota-v2/
-# Example usage: yolo train model=yolov8n-obb.pt data=DOTAv1.yaml
-# parent
+# Ultralytics YOLO 🚀, AGPL-3.0 许可证
+# DOTA 1.0 数据集 https://captain-whu.github.io/DOTA/index.html 用于武汉大学的航空图像目标检测
+# 文档：https://docs.ultralytics.com/datasets/obb/dota-v2/
+# 示例用法：yolo train model=yolov8n-obb.pt data=DOTAv1.yaml
+# 父目录
 # ├── ultralytics
 # └── datasets
-#     └── dota1  ← downloads here (2GB)
+#     └── dota1  ← 下载到此处 (2GB)
 
-# Train/val/test sets as 1) dir: path/to/imgs, 2) file: path/to/imgs.txt, or 3) list: [path/to/imgs1, path/to/imgs2, ..]
-path: ../datasets/DOTAv1 # dataset root dir
-train: images/train # train images (relative to 'path') 1411 images
-val: images/val # val images (relative to 'path') 458 images
-test: images/test # test images (optional) 937 images
+# 训练/验证/测试集可以是 1) 目录：path/to/imgs, 2) 文件：path/to/imgs.txt, 或 3) 列表：[path/to/imgs1, path/to/imgs2, ..]
+path: ../datasets/DOTAv1 # 数据集根目录
+train: images/train # 训练图像（相对于 'path'）1411 张图像
+val: images/val # 验证图像（相对于 'path'）458 张图像
+test: images/test # 测试图像（可选）937 张图像
 
-# Classes for DOTA 1.0
+# DOTA 1.0 类别
 names:
   0: plane
   1: ship
@@ -31,5 +31,5 @@ names:
   13: soccer ball field
   14: swimming pool
 
-# Download script/URL (optional)
+# 下载脚本/URL（可选）
 download: https://github.com/ultralytics/yolov5/releases/download/v1.0/DOTAv1.zip
