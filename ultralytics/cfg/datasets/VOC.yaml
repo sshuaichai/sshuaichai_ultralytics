@@ -1,25 +1,25 @@
-# Ultralytics YOLO 🚀, AGPL-3.0 license
-# PASCAL VOC dataset http://host.robots.ox.ac.uk/pascal/VOC by University of Oxford
-# Documentation: # Documentation: https://docs.ultralytics.com/datasets/detect/voc/
-# Example usage: yolo train data=VOC.yaml
-# parent
+# Ultralytics YOLO 🚀, AGPL-3.0 许可证
+# PASCAL VOC 数据集 http://host.robots.ox.ac.uk/pascal/VOC 由牛津大学提供
+# 文档：https://docs.ultralytics.com/datasets/detect/voc/
+# 示例用法：yolo train data=VOC.yaml
+# 父目录
 # ├── ultralytics
 # └── datasets
-#     └── VOC  ← downloads here (2.8 GB)
+#     └── VOC  ← 下载到此处 (2.8 GB)
 
-# Train/val/test sets as 1) dir: path/to/imgs, 2) file: path/to/imgs.txt, or 3) list: [path/to/imgs1, path/to/imgs2, ..]
+# 训练/验证/测试集可以是 1) 目录：path/to/imgs, 2) 文件：path/to/imgs.txt, 或 3) 列表：[path/to/imgs1, path/to/imgs2, ..]
 path: ../datasets/VOC
-train: # train images (relative to 'path')  16551 images
+train: # 训练图像（相对于 'path'）  16551 张图像
   - images/train2012
   - images/train2007
   - images/val2012
   - images/val2007
-val: # val images (relative to 'path')  4952 images
+val: # 验证图像（相对于 'path'）  4952 张图像
   - images/test2007
-test: # test images (optional)
+test: # 测试图像（可选）
   - images/test2007
 
-# Classes
+# 类别
 names:
   0: aeroplane
   1: bicycle
@@ -42,7 +42,7 @@ names:
   18: train
   19: tvmonitor
 
-# Download script/URL (optional) ---------------------------------------------------------------------------------------
+# 下载脚本/URL（可选）
 download: |
   import xml.etree.ElementTree as ET
 
@@ -73,16 +73,15 @@ download: |
               cls_id = names.index(cls)  # class id
               out_file.write(" ".join(str(a) for a in (cls_id, *bb)) + '\n')
 
-
-  # Download
-  dir = Path(yaml['path'])  # dataset root dir
+  # 下载
+  dir = Path(yaml['path'])  # 数据集根目录
   url = 'https://github.com/ultralytics/yolov5/releases/download/v1.0/'
-  urls = [f'{url}VOCtrainval_06-Nov-2007.zip',  # 446MB, 5012 images
-          f'{url}VOCtest_06-Nov-2007.zip',  # 438MB, 4953 images
-          f'{url}VOCtrainval_11-May-2012.zip']  # 1.95GB, 17126 images
-  download(urls, dir=dir / 'images', curl=True, threads=3, exist_ok=True)  # download and unzip over existing paths (required)
+  urls = [f'{url}VOCtrainval_06-Nov-2007.zip',  # 446MB, 5012 张图像
+          f'{url}VOCtest_06-Nov-2007.zip',  # 438MB, 4953 张图像
+          f'{url}VOCtrainval_11-May-2012.zip']  # 1.95GB, 17126 张图像
+  download(urls, dir=dir / 'images', curl=True, threads=3, exist_ok=True)  # 下载并解压到已存在的路径
 
-  # Convert
+  # 转换
   path = dir / 'images/VOCdevkit'
   for year, image_set in ('2012', 'train'), ('2012', 'val'), ('2007', 'train'), ('2007', 'val'), ('2007', 'test'):
       imgs_path = dir / 'images' / f'{image_set}{year}'
@@ -93,7 +92,7 @@ download: |
       with open(path / f'VOC{year}/ImageSets/Main/{image_set}.txt') as f:
           image_ids = f.read().strip().split()
       for id in tqdm(image_ids, desc=f'{image_set}{year}'):
-          f = path / f'VOC{year}/JPEGImages/{id}.jpg'  # old img path
-          lb_path = (lbs_path / f.name).with_suffix('.txt')  # new label path
-          f.rename(imgs_path / f.name)  # move image
-          convert_label(path, lb_path, year, id)  # convert labels to YOLO format
+          f = path / f'VOC{year}/JPEGImages/{id}.jpg'  # 旧图像路径
+          lb_path = (lbs_path / f.name).with_suffix('.txt')  # 新标签路径
+          f.rename(imgs_path / f.name)  # 移动图像
+          convert_label(path, lb_path, year, id)  # 将标签转换为 YOLO 格式
