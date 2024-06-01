@@ -38,6 +38,12 @@
 
 
 # 训练/验证/测试集可以是 1) 目录：path/to/imgs, 2) 文件：path/to/imgs.txt, 或 3) 列表：[path/to/imgs1, path/to/imgs2, ..]
+# Ultralytics YOLO官网推荐的train.txt文件格式：
+# path/to/image1.jpg
+# path/to/image2.jpg
+# path/to/image3.jpg
+# ...
+
 path: ../datasets/coco # 数据集根目录
 train: train2017.txt # 训练图像（相对于 'path'）118287 张图像
 val: val2017.txt # 验证图像（相对于 'path'）5000 张图像
