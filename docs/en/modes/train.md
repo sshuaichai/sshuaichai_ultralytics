@@ -1,274 +1,274 @@
 ---
 comments: true
-description: Step-by-step guide to train YOLOv8 models with Ultralytics YOLO including examples of single-GPU and multi-GPU training
-keywords: Ultralytics, YOLOv8, YOLO, object detection, train mode, custom dataset, GPU training, multi-GPU, hyperparameters, CLI examples, Python examples
+description: 逐步指南教您如何使用Ultralytics YOLO训练YOLOv8模型，包括单GPU和多GPU训练的示例。
+keywords: Ultralytics, YOLOv8, YOLO, 目标检测, 训练模式, 自定义数据集, GPU训练, 多GPU, 超参数, CLI示例, Python示例
 ---
 
-# Model Training with Ultralytics YOLO
+# 使用Ultralytics YOLO进行模型训练
 
-<img width="1024" src="https://github.com/ultralytics/assets/raw/main/yolov8/banner-integrations.png" alt="Ultralytics YOLO ecosystem and integrations">
+<img width="1024" src="https://github.com/ultralytics/assets/raw/main/yolov8/banner-integrations.png" alt="Ultralytics YOLO生态系统和集成">
 
-## Introduction
+## 介绍
 
-Training a deep learning model involves feeding it data and adjusting its parameters so that it can make accurate predictions. Train mode in Ultralytics YOLOv8 is engineered for effective and efficient training of object detection models, fully utilizing modern hardware capabilities. This guide aims to cover all the details you need to get started with training your own models using YOLOv8's robust set of features.
+训练深度学习模型涉及向模型提供数据并调整其参数，使其能够进行准确的预测。Ultralytics YOLOv8的训练模式专为高效和有效的目标检测模型训练而设计，充分利用现代硬件能力。本指南旨在涵盖使用YOLOv8丰富的功能进行自定义模型训练所需的所有细节。
 
 <p align="center">
   <br>
   <iframe loading="lazy" width="720" height="405" src="https://www.youtube.com/embed/LNwODJXcvt4?si=7n1UvGRLSd9p5wKs"
-    title="YouTube video player" frameborder="0"
+    title="YouTube视频播放器" frameborder="0"
     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
     allowfullscreen>
   </iframe>
   <br>
-  <strong>Watch:</strong> How to Train a YOLOv8 model on Your Custom Dataset in Google Colab.
+  <strong>观看：</strong> 如何在Google Colab上训练YOLOv8模型
 </p>
 
-## Why Choose Ultralytics YOLO for Training?
+## 为什么选择Ultralytics YOLO进行训练？
 
-Here are some compelling reasons to opt for YOLOv8's Train mode:
+以下是选择YOLOv8训练模式的一些令人信服的理由：
 
-- **Efficiency:** Make the most out of your hardware, whether you're on a single-GPU setup or scaling across multiple GPUs.
-- **Versatility:** Train on custom datasets in addition to readily available ones like COCO, VOC, and ImageNet.
-- **User-Friendly:** Simple yet powerful CLI and Python interfaces for a straightforward training experience.
-- **Hyperparameter Flexibility:** A broad range of customizable hyperparameters to fine-tune model performance.
+- **效率：** 最大限度地利用硬件，无论是单GPU设置还是扩展到多GPU。
+- **多功能性：** 除了现成的数据集如COCO、VOC和ImageNet，还可以在自定义数据集上进行训练。
+- **用户友好：** 简单但功能强大的CLI和Python接口，提供简便的训练体验。
+- **超参数灵活性：** 广泛的可自定义超参数，可优化模型性能。
 
-### Key Features of Train Mode
+### 训练模式的关键特性
 
-The following are some notable features of YOLOv8's Train mode:
+以下是YOLOv8训练模式的一些显著特性：
 
-- **Automatic Dataset Download:** Standard datasets like COCO, VOC, and ImageNet are downloaded automatically on first use.
-- **Multi-GPU Support:** Scale your training efforts seamlessly across multiple GPUs to expedite the process.
-- **Hyperparameter Configuration:** The option to modify hyperparameters through YAML configuration files or CLI arguments.
-- **Visualization and Monitoring:** Real-time tracking of training metrics and visualization of the learning process for better insights.
+- **自动数据集下载：** 像COCO、VOC和ImageNet这样的标准数据集在首次使用时会自动下载。
+- **多GPU支持：** 无缝扩展训练工作到多个GPU，加快训练进程。
+- **超参数配置：** 可以通过YAML配置文件或CLI参数修改超参数。
+- **可视化和监控：** 实时跟踪训练指标和可视化学习过程，以获得更好的洞察。
 
-!!! Tip "Tip"
+!!! 提示 "提示"
 
-    * YOLOv8 datasets like COCO, VOC, ImageNet and many others automatically download on first use, i.e. `yolo train data=coco.yaml`
+    * YOLOv8数据集如COCO、VOC、ImageNet等在首次使用时会自动下载，即 `yolo train data=coco.yaml`
 
-## Usage Examples
+## 使用示例
 
-Train YOLOv8n on the COCO8 dataset for 100 epochs at image size 640. The training device can be specified using the `device` argument. If no argument is passed GPU `device=0` will be used if available, otherwise `device='cpu'` will be used. See Arguments section below for a full list of training arguments.
+在COCO8数据集上训练YOLOv8n，训练100个epoch，图像大小为640。可以使用`device`参数指定训练设备。如果未传递任何参数，则使用GPU `device=0`，否则使用`device='cpu'`。有关完整的训练参数列表，请参见下方的参数部分。
 
-!!! Example "Single-GPU and CPU Training Example"
+!!! 示例 "单GPU和CPU训练示例"
 
-    Device is determined automatically. If a GPU is available then it will be used, otherwise training will start on CPU.
+    设备会自动确定。如果有可用的GPU，则会使用GPU，否则会在CPU上启动训练。
 
     === "Python"
 
         ```python
         from ultralytics import YOLO
 
-        # Load a model
-        model = YOLO('yolov8n.yaml')  # build a new model from YAML
-        model = YOLO('yolov8n.pt')  # load a pretrained model (recommended for training)
-        model = YOLO('yolov8n.yaml').load('yolov8n.pt')  # build from YAML and transfer weights
+        # 加载模型
+        model = YOLO('yolov8n.yaml')  # 从YAML构建新模型
+        model = YOLO('yolov8n.pt')  # 加载预训练模型（推荐用于训练）
+        model = YOLO('yolov8n.yaml').load('yolov8n.pt')  # 从YAML构建并传递权重
 
-        # Train the model
+        # 训练模型
         results = model.train(data='coco8.yaml', epochs=100, imgsz=640)
         ```
 
     === "CLI"
 
         ```bash
-        # Build a new model from YAML and start training from scratch
+        # 从YAML构建新模型并从头开始训练
         yolo detect train data=coco8.yaml model=yolov8n.yaml epochs=100 imgsz=640
 
-        # Start training from a pretrained *.pt model
+        # 从预训练*.pt模型开始训练
         yolo detect train data=coco8.yaml model=yolov8n.pt epochs=100 imgsz=640
 
-        # Build a new model from YAML, transfer pretrained weights to it and start training
+        # 从YAML构建新模型，将预训练权重传递给它并开始训练
         yolo detect train data=coco8.yaml model=yolov8n.yaml pretrained=yolov8n.pt epochs=100 imgsz=640
         ```
 
-### Multi-GPU Training
+### 多GPU训练
 
-Multi-GPU training allows for more efficient utilization of available hardware resources by distributing the training load across multiple GPUs. This feature is available through both the Python API and the command-line interface. To enable multi-GPU training, specify the GPU device IDs you wish to use.
+多GPU训练通过在多个GPU上分配训练负载，更高效地利用可用硬件资源。此功能可通过Python API和命令行界面使用。要启用多GPU训练，请指定要使用的GPU设备ID。
 
-!!! Example "Multi-GPU Training Example"
+!!! 示例 "多GPU训练示例"
 
-    To train with 2 GPUs, CUDA devices 0 and 1 use the following commands. Expand to additional GPUs as required.
+    要使用2个GPU进行训练，CUDA设备0和1，使用以下命令。根据需要扩展到更多GPU。
 
     === "Python"
 
         ```python
         from ultralytics import YOLO
 
-        # Load a model
-        model = YOLO('yolov8n.pt')  # load a pretrained model (recommended for training)
+        # 加载模型
+        model = YOLO('yolov8n.pt')  # 加载预训练模型（推荐用于训练）
 
-        # Train the model with 2 GPUs
+        # 使用2个GPU训练模型
         results = model.train(data='coco8.yaml', epochs=100, imgsz=640, device=[0, 1])
         ```
 
     === "CLI"
 
         ```bash
-        # Start training from a pretrained *.pt model using GPUs 0 and 1
+        # 使用GPU 0和1从预训练*.pt模型开始训练
         yolo detect train data=coco8.yaml model=yolov8n.pt epochs=100 imgsz=640 device=0,1
         ```
 
-### Apple M1 and M2 MPS Training
+### Apple M1和M2 MPS训练
 
-With the support for Apple M1 and M2 chips integrated in the Ultralytics YOLO models, it's now possible to train your models on devices utilizing the powerful Metal Performance Shaders (MPS) framework. The MPS offers a high-performance way of executing computation and image processing tasks on Apple's custom silicon.
+随着Ultralytics YOLO模型对Apple M1和M2芯片的支持，现在可以在利用强大的Metal Performance Shaders (MPS)框架的设备上训练模型。MPS提供了一种在Apple定制硅上执行计算和图像处理任务的高性能方式。
 
-To enable training on Apple M1 and M2 chips, you should specify 'mps' as your device when initiating the training process. Below is an example of how you could do this in Python and via the command line:
+要在Apple M1和M2芯片上启用训练，应在启动训练过程时指定`device='mps'`。以下是如何在Python和命令行中执行此操作的示例：
 
-!!! Example "MPS Training Example"
+!!! 示例 "MPS训练示例"
 
     === "Python"
 
         ```python
         from ultralytics import YOLO
 
-        # Load a model
-        model = YOLO('yolov8n.pt')  # load a pretrained model (recommended for training)
+        # 加载模型
+        model = YOLO('yolov8n.pt')  # 加载预训练模型（推荐用于训练）
 
-        # Train the model with 2 GPUs
+        # 使用MPS训练模型
         results = model.train(data='coco8.yaml', epochs=100, imgsz=640, device='mps')
         ```
 
     === "CLI"
 
         ```bash
-        # Start training from a pretrained *.pt model using GPUs 0 and 1
+        # 使用MPS从预训练*.pt模型开始训练
         yolo detect train data=coco8.yaml model=yolov8n.pt epochs=100 imgsz=640 device=mps
         ```
 
-While leveraging the computational power of the M1/M2 chips, this enables more efficient processing of the training tasks. For more detailed guidance and advanced configuration options, please refer to the [PyTorch MPS documentation](https://pytorch.org/docs/stable/notes/mps.html).
+通过利用M1/M2芯片的计算能力，这使得训练任务的处理更加高效。有关更详细的指导和高级配置选项，请参阅[PyTorch MPS文档](https://pytorch.org/docs/stable/notes/mps.html)。
 
-### Resuming Interrupted Trainings
+### 恢复中断的训练
 
-Resuming training from a previously saved state is a crucial feature when working with deep learning models. This can come in handy in various scenarios, like when the training process has been unexpectedly interrupted, or when you wish to continue training a model with new data or for more epochs.
+从先前保存的状态恢复训练是处理深度学习模型时的关键特性。在训练过程意外中断时或希望使用新数据或更多epoch继续训练模型时，这种功能非常有用。
 
-When training is resumed, Ultralytics YOLO loads the weights from the last saved model and also restores the optimizer state, learning rate scheduler, and the epoch number. This allows you to continue the training process seamlessly from where it was left off.
+当训练恢复时，Ultralytics YOLO会加载最后保存的模型权重，并恢复优化器状态、学习率调度器和epoch号。这使得您可以从上次中断的地方无缝继续训练过程。
 
-You can easily resume training in Ultralytics YOLO by setting the `resume` argument to `True` when calling the `train` method, and specifying the path to the `.pt` file containing the partially trained model weights.
+您可以通过在调用`train`方法时将`resume`参数设置为`True`并指定包含部分训练模型权重的`.pt`文件的路径，轻松恢复Ultralytics YOLO中的训练。
 
-Below is an example of how to resume an interrupted training using Python and via the command line:
+以下是如何使用Python和命令行恢复中断训练的示例：
 
-!!! Example "Resume Training Example"
+!!! 示例 "恢复训练示例"
 
     === "Python"
 
         ```python
         from ultralytics import YOLO
 
-        # Load a model
-        model = YOLO('path/to/last.pt')  # load a partially trained model
+        # 加载模型
+        model = YOLO('path/to/last.pt')  # 加载部分训练模型
 
-        # Resume training
+        # 恢复训练
         results = model.train(resume=True)
         ```
 
     === "CLI"
 
         ```bash
-        # Resume an interrupted training
+        # 恢复中断的训练
         yolo train resume model=path/to/last.pt
         ```
 
-By setting `resume=True`, the `train` function will continue training from where it left off, using the state stored in the 'path/to/last.pt' file. If the `resume` argument is omitted or set to `False`, the `train` function will start a new training session.
+通过设置`resume=True`，`train`函数将从上次中断的地方继续训练，使用存储在'path/to/last.pt'文件中的状态。如果省略或设置`resume`参数为`False`，`train`函数将开始新的训练会话。
 
-Remember that checkpoints are saved at the end of every epoch by default, or at fixed interval using the `save_period` argument, so you must complete at least 1 epoch to resume a training run.
+请记住，检查点默认每个epoch结束时保存一次，或者使用`save_period`参数以固定间隔保存，因此您必须至少完成一个epoch才能恢复训练。
 
-## Train Settings
+## 训练设置
 
-The training settings for YOLO models encompass various hyperparameters and configurations used during the training process. These settings influence the model's performance, speed, and accuracy. Key training settings include batch size, learning rate, momentum, and weight decay. Additionally, the choice of optimizer, loss function, and training dataset composition can impact the training process. Careful tuning and experimentation with these settings are crucial for optimizing performance.
+YOLO模型的训练设置涵盖了训练过程中的各种超参数和配置。这些设置影响模型的性能、速度和准确性。关键训练设置包括批量大小、学习率、动量和权重衰减。此外，优化器的选择、损失函数和训练数据集的组成也会影响训练过程。仔细调整和实验这些设置对于优化性能至关重要。
 
-| Argument          | Default  | Description                                                                                                                                                                                                          |
-|-------------------|----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `model`           | `None`   | Specifies the model file for training. Accepts a path to either a `.pt` pretrained model or a `.yaml` configuration file. Essential for defining the model structure or initializing weights.                        |
-| `data`            | `None`   | Path to the dataset configuration file (e.g., `coco8.yaml`). This file contains dataset-specific parameters, including paths to training and validation data, class names, and number of classes.                    |
-| `epochs`          | `100`    | Total number of training epochs. Each epoch represents a full pass over the entire dataset. Adjusting this value can affect training duration and model performance.                                                 |
-| `time`            | `None`   | Maximum training time in hours. If set, this overrides the `epochs` argument, allowing training to automatically stop after the specified duration. Useful for time-constrained training scenarios.                  |
-| `patience`        | `100`    | Number of epochs to wait without improvement in validation metrics before early stopping the training. Helps prevent overfitting by stopping training when performance plateaus.                                     |
-| `batch`           | `16`     | Batch size for training, indicating how many images are processed before the model's internal parameters are updated. AutoBatch (`batch=-1`) dynamically adjusts the batch size based on GPU memory availability.    |
-| `imgsz`           | `640`    | Target image size for training. All images are resized to this dimension before being fed into the model. Affects model accuracy and computational complexity.                                                       |
-| `save`            | `True`   | Enables saving of training checkpoints and final model weights. Useful for resuming training or model deployment.                                                                                                    |
-| `save_period`     | `-1`     | Frequency of saving model checkpoints, specified in epochs. A value of -1 disables this feature. Useful for saving interim models during long training sessions.                                                     |
-| `cache`           | `False`  | Enables caching of dataset images in memory (`True`/`ram`), on disk (`disk`), or disables it (`False`). Improves training speed by reducing disk I/O at the cost of increased memory usage.                          |
-| `device`          | `None`   | Specifies the computational device(s) for training: a single GPU (`device=0`), multiple GPUs (`device=0,1`), CPU (`device=cpu`), or MPS for Apple silicon (`device=mps`).                                            |
-| `workers`         | `8`      | Number of worker threads for data loading (per `RANK` if Multi-GPU training). Influences the speed of data preprocessing and feeding into the model, especially useful in multi-GPU setups.                          |
-| `project`         | `None`   | Name of the project directory where training outputs are saved. Allows for organized storage of different experiments.                                                                                               |
-| `name`            | `None`   | Name of the training run. Used for creating a subdirectory within the project folder, where training logs and outputs are stored.                                                                                    |
-| `exist_ok`        | `False`  | If True, allows overwriting of an existing project/name directory. Useful for iterative experimentation without needing to manually clear previous outputs.                                                          |
-| `pretrained`      | `True`   | Determines whether to start training from a pretrained model. Can be a boolean value or a string path to a specific model from which to load weights. Enhances training efficiency and model performance.            |
-| `optimizer`       | `'auto'` | Choice of optimizer for training. Options include `SGD`, `Adam`, `AdamW`, `NAdam`, `RAdam`, `RMSProp` etc., or `auto` for automatic selection based on model configuration. Affects convergence speed and stability. |
-| `verbose`         | `False`  | Enables verbose output during training, providing detailed logs and progress updates. Useful for debugging and closely monitoring the training process.                                                              |
-| `seed`            | `0`      | Sets the random seed for training, ensuring reproducibility of results across runs with the same configurations.                                                                                                     |
-| `deterministic`   | `True`   | Forces deterministic algorithm use, ensuring reproducibility but may affect performance and speed due to the restriction on non-deterministic algorithms.                                                            |
-| `single_cls`      | `False`  | Treats all classes in multi-class datasets as a single class during training. Useful for binary classification tasks or when focusing on object presence rather than classification.                                 |
-| `rect`            | `False`  | Enables rectangular training, optimizing batch composition for minimal padding. Can improve efficiency and speed but may affect model accuracy.                                                                      |
-| `cos_lr`          | `False`  | Utilizes a cosine learning rate scheduler, adjusting the learning rate following a cosine curve over epochs. Helps in managing learning rate for better convergence.                                                 |
-| `close_mosaic`    | `10`     | Disables mosaic data augmentation in the last N epochs to stabilize training before completion. Setting to 0 disables this feature.                                                                                  |
-| `resume`          | `False`  | Resumes training from the last saved checkpoint. Automatically loads model weights, optimizer state, and epoch count, continuing training seamlessly.                                                                |
-| `amp`             | `True`   | Enables Automatic Mixed Precision (AMP) training, reducing memory usage and possibly speeding up training with minimal impact on accuracy.                                                                           |
-| `fraction`        | `1.0`    | Specifies the fraction of the dataset to use for training. Allows for training on a subset of the full dataset, useful for experiments or when resources are limited.                                                |
-| `profile`         | `False`  | Enables profiling of ONNX and TensorRT speeds during training, useful for optimizing model deployment.                                                                                                               |
-| `freeze`          | `None`   | Freezes the first N layers of the model or specified layers by index, reducing the number of trainable parameters. Useful for fine-tuning or transfer learning.                                                      |
-| `lr0`             | `0.01`   | Initial learning rate (i.e. `SGD=1E-2`, `Adam=1E-3`) . Adjusting this value is crucial for the optimization process, influencing how rapidly model weights are updated.                                              |
-| `lrf`             | `0.01`   | Final learning rate as a fraction of the initial rate = (`lr0 * lrf`), used in conjunction with schedulers to adjust the learning rate over time.                                                                    |
-| `momentum`        | `0.937`  | Momentum factor for SGD or beta1 for Adam optimizers, influencing the incorporation of past gradients in the current update.                                                                                         |
-| `weight_decay`    | `0.0005` | L2 regularization term, penalizing large weights to prevent overfitting.                                                                                                                                             |
-| `warmup_epochs`   | `3.0`    | Number of epochs for learning rate warmup, gradually increasing the learning rate from a low value to the initial learning rate to stabilize training early on.                                                      |
-| `warmup_momentum` | `0.8`    | Initial momentum for warmup phase, gradually adjusting to the set momentum over the warmup period.                                                                                                                   |
-| `warmup_bias_lr`  | `0.1`    | Learning rate for bias parameters during the warmup phase, helping stabilize model training in the initial epochs.                                                                                                   |
-| `box`             | `7.5`    | Weight of the box loss component in the loss function, influencing how much emphasis is placed on accurately predicting bounding box coordinates.                                                                    |
-| `cls`             | `0.5`    | Weight of the classification loss in the total loss function, affecting the importance of correct class prediction relative to other components.                                                                     |
-| `dfl`             | `1.5`    | Weight of the distribution focal loss, used in certain YOLO versions for fine-grained classification.                                                                                                                |
-| `pose`            | `12.0`   | Weight of the pose loss in models trained for pose estimation, influencing the emphasis on accurately predicting pose keypoints.                                                                                     |
-| `kobj`            | `2.0`    | Weight of the keypoint objectness loss in pose estimation models, balancing detection confidence with pose accuracy.                                                                                                 |
-| `label_smoothing` | `0.0`    | Applies label smoothing, softening hard labels to a mix of the target label and a uniform distribution over labels, can improve generalization.                                                                      |
-| `nbs`             | `64`     | Nominal batch size for normalization of loss.                                                                                                                                                                        |
-| `overlap_mask`    | `True`   | Determines whether segmentation masks should overlap during training, applicable in instance segmentation tasks.                                                                                                     |
-| `mask_ratio`      | `4`      | Downsample ratio for segmentation masks, affecting the resolution of masks used during training.                                                                                                                     |
-| `dropout`         | `0.0`    | Dropout rate for regularization in classification tasks, preventing overfitting by randomly omitting units during training.                                                                                          |
-| `val`             | `True`   | Enables validation during training, allowing for periodic evaluation of model performance on a separate dataset.                                                                                                     |
-| `plots`           | `False`  | Generates and saves plots of training and validation metrics, as well as prediction examples, providing visual insights into model performance and learning progression.                                             |
+| 参数               | 默认值  | 描述                                                                                                                                                                  |
+|-------------------|---------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `model`           | `None`  | 指定用于训练的模型文件。接受路径到`.pt`预训练模型或`.yaml`配置文件。定义模型结构或初始化权重必不可少。                                                                |
+| `data`            | `None`  | 数据集配置文件的路径（例如`coco8.yaml`）。该文件包含数据集特定参数，包括训练和验证数据的路径、类别名称和类别数量。                                                    |
+| `epochs`          | `100`   | 总训练轮数。每个epoch表示整个数据集的完整遍历。调整此值可以影响训练持续时间和模型性能。                                                                              |
+| `time`            | `None`  | 最大训练时间（小时）。如果设置，则覆盖`epochs`参数，允许在指定时间后自动停止训练。对于时间受限的训练场景很有用。                                                   |
+| `patience`        | `100`   | 在验证指标没有改进的情况下等待的epoch数，之后将提前停止训练。通过在性能平稳时停止训练，防止过拟合。                                                                    |
+| `batch`           | `16`    | 训练的批量大小，表示在模型的内部参数更新之前处理的图像数量。AutoBatch (`batch=-1`)根据GPU内存可用性动态调整批量大小。                                               |
+| `imgsz`           | `640`   | 训练的目标图像大小。所有图像在输入模型之前都调整为此尺寸。影响模型的准确性和计算复杂性。                                                                              |
+| `save`            | `True`  | 启用训练检查点和最终模型权重的保存。对于恢复训练或模型部署很有用。                                                                                                   |
+| `save_period`     | `-1`    | 模型检查点保存的频率，以epoch为单位。-1表示禁用此功能。对于长时间的训练会话，保存中间模型很有用。                                                                      |
+| `cache`           | `False` | 启用数据集图像在内存(`True`/`ram`)或磁盘(`disk`)上的缓存，或禁用(`False`)缓存。通过减少磁盘I/O来提高训练速度，但增加内存使用。                                         |
+| `device`          | `None`  | 指定训练的计算设备：单个GPU (`device=0`)、多个GPU (`device=0,1`)、CPU (`device=cpu`)或Apple硅MPS (`device=mps`)。                                                        |
+| `workers`         | `8`     | 数据加载的工作线程数量（每个`RANK`，如果是多GPU训练）。影响数据预处理和模型输入的速度，特别是在多GPU设置中。                                                            |
+| `project`         | `None`  | 保存训练输出的项目目录名称。允许有条理地存储不同的实验。                                                                                                              |
+| `name`            | `None`  | 训练运行的名称。用于在项目文件夹中创建子目录，保存训练日志和输出。                                                                                                     |
+| `exist_ok`        | `False` | 如果为True，则允许覆盖现有的项目/名称目录。对于迭代实验很有用，不需要手动清理以前的输出。                                                                               |
+| `pretrained`      | `True`  | 决定是否从预训练模型开始训练。可以是布尔值或特定模型的字符串路径，用于加载权重。提高训练效率和模型性能。                                                                |
+| `optimizer`       | `'auto'`| 训练优化器的选择。选项包括`SGD`、`Adam`、`AdamW`、`NAdam`、`RAdam`、`RMSProp`等，或`auto`，基于模型配置自动选择。影响收敛速度和稳定性。                               |
+| `verbose`         | `False` | 启用训练期间的详细输出，提供详细日志和进度更新。对于调试和密切监控训练过程很有用。                                                                                        |
+| `seed`            | `0`     | 设置训练的随机种子，确保相同配置下结果的可重复性。                                                                                                                      |
+| `deterministic`   | `True`  | 强制使用确定性算法，确保可重复性，但由于限制了非确定性算法，可能影响性能和速度。                                                                                         |
+| `single_cls`      | `False` | 在训练期间将多类数据集中的所有类别视为单一类别。对于二分类任务或关注目标存在而不是分类时很有用。                                                                        |
+| `rect`            | `False` | 启用矩形训练，优化批次组成以最小化填充。可以提高效率和速度，但可能影响模型准确性。                                                                                      |
+| `cos_lr`          | `False` | 使用余弦学习率调度器，在epoch期间按照余弦曲线调整学习率。帮助管理学习率以获得更好的收敛。                                                                              |
+| `close_mosaic`    | `10`    | 在最后N个epoch中禁用马赛克数据增强，以稳定训练。设置为0可禁用此功能。                                                                                                    |
+| `resume`          | `False` | 从最后保存的检查点恢复训练。自动加载模型权重、优化器状态和epoch计数，无缝继续训练。                                                                                       |
+| `amp`             | `True`  | 启用自动混合精度(AMP)训练，减少内存使用并可能加快训练速度，对准确性影响最小。                                                                                              |
+| `fraction`        | `1.0`   | 指定用于训练的数据集的比例。允许在资源有限的情况下使用完整数据集的子集进行训练，适用于实验。                                                                              |
+| `profile`         | `False` | 启用ONNX和TensorRT速度在训练期间的分析，有助于优化模型部署。                                                                                                              |
+| `freeze`          | `None`  | 冻结模型的前N层或按索引指定的层，减少可训练参数数量。适用于微调或迁移学习。                                                                                            |
+| `lr0`             | `0.01`  | 初始学习率（即`SGD=1E-2`，`Adam=1E-3`）。调整此值对于优化过程至关重要，影响模型权重的更新速度。                                                                         |
+| `lrf`             | `0.01`  | 最终学习率作为初始率的比例 = (`lr0 * lrf`)，与调度器一起使用以随时间调整学习率。                                                                                        |
+| `momentum`        | `0.937` | SGD的动量因子或Adam优化器的beta1，影响当前更新中包含过去梯度的程度。                                                                                                     |
+| `weight_decay`    | `0.0005`| L2正则化项，惩罚较大的权重以防止过拟合。                                                                                                                                |
+| `warmup_epochs`   | `3.0`   | 学习率预热的epoch数，从低值逐渐增加到初始学习率，以稳定训练。                                                                                                           |
+| `warmup_momentum` | `0.8`   | 预热阶段的初始动量，在预热期内逐渐调整到设定的动量。                                                                                                                   |
+| `warmup_bias_lr`  | `0.1`   | 预热阶段的偏置参数学习率，帮助在初始epoch稳定模型训练。                                                                                                                  |
+| `box`             | `7.5`   | 损失函数中框损失组件的权重，影响准确预测边界框坐标的重视程度。                                                                                                            |
+| `cls`             | `0.5`   | 总损失函数中分类损失的权重，影响正确分类预测相对于其他组件的重要性。                                                                                                     |
+| `dfl`             | `1.5`   | 分布焦点损失的权重，用于某些YOLO版本的细粒度分类。                                                                                                                        |
+| `pose`            | `12.0`  | 用于姿态估计训练的模型中的姿态损失权重，影响准确预测姿态关键点的重视程度。                                                                                              |
+| `kobj`            | `2.0`   | 姿态估计模型中的关键点对象损失的权重，在检测置信度和姿态准确性之间平衡。                                                                                                |
+| `label_smoothing` | `0.0`   | 应用标签平滑，将硬标签软化为目标标签和标签的均匀分布的混合，可以提高泛化能力。                                                                                          |
+| `nbs`             | `64`    | 用于规范化损失的名义批量大小。                                                                                                                                              |
+| `overlap_mask`    | `True`  | 确定在训练期间分割掩码是否应重叠，适用于实例分割任务。                                                                                                                    |
+| `mask_ratio`      | `4`     | 分割掩码的下采样比例，影响训练期间使用的掩码分辨率。                                                                                                                      |
+| `dropout`         | `0.0`   | 分类任务中的正则化丢弃率，通过在训练期间随机省略单元来防止过拟合。                                                                                                       |
+| `val`             | `True`  | 启用训练期间的验证，允许定期评估模型在单独数据集上的性能。                                                                                                                |
+| `plots`           | `False` | 生成并保存训练和验证指标的图表以及预测示例，提供对模型性能和学习进展的可视化洞察。                                                                                        |
 
-## Augmentation Settings and Hyperparameters
+## 增强设置和超参数
 
-Augmentation techniques are essential for improving the robustness and performance of YOLO models by introducing variability into the training data, helping the model generalize better to unseen data. The following table outlines the purpose and effect of each augmentation argument:
+增强技术对于通过引入训练数据的变异性来提高YOLO模型的鲁棒性和性能至关重要，帮助模型更好地泛化到未见过的数据。下表概述了每个增强参数的目的和效果：
 
-| Argument        | Type    | Default       | Range         | Description                                                                                                                                                               |
-|-----------------|---------|---------------|---------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `hsv_h`         | `float` | `0.015`       | `0.0 - 1.0`   | Adjusts the hue of the image by a fraction of the color wheel, introducing color variability. Helps the model generalize across different lighting conditions.            |
-| `hsv_s`         | `float` | `0.7`         | `0.0 - 1.0`   | Alters the saturation of the image by a fraction, affecting the intensity of colors. Useful for simulating different environmental conditions.                            |
-| `hsv_v`         | `float` | `0.4`         | `0.0 - 1.0`   | Modifies the value (brightness) of the image by a fraction, helping the model to perform well under various lighting conditions.                                          |
-| `degrees`       | `float` | `0.0`         | `-180 - +180` | Rotates the image randomly within the specified degree range, improving the model's ability to recognize objects at various orientations.                                 |
-| `translate`     | `float` | `0.1`         | `0.0 - 1.0`   | Translates the image horizontally and vertically by a fraction of the image size, aiding in learning to detect partially visible objects.                                 |
-| `scale`         | `float` | `0.5`         | `>=0.0`       | Scales the image by a gain factor, simulating objects at different distances from the camera.                                                                             |
-| `shear`         | `float` | `0.0`         | `-180 - +180` | Shears the image by a specified degree, mimicking the effect of objects being viewed from different angles.                                                               |
-| `perspective`   | `float` | `0.0`         | `0.0 - 0.001` | Applies a random perspective transformation to the image, enhancing the model's ability to understand objects in 3D space.                                                |
-| `flipud`        | `float` | `0.0`         | `0.0 - 1.0`   | Flips the image upside down with the specified probability, increasing the data variability without affecting the object's characteristics.                               |
-| `fliplr`        | `float` | `0.5`         | `0.0 - 1.0`   | Flips the image left to right with the specified probability, useful for learning symmetrical objects and increasing dataset diversity.                                   |
-| `bgr`           | `float` | `0.0`         | `0.0 - 1.0`   | Flips the image channels from RGB to BGR with the specified probability, useful for increasing robustness to incorrect channel ordering.                                  |
-| `mosaic`        | `float` | `1.0`         | `0.0 - 1.0`   | Combines four training images into one, simulating different scene compositions and object interactions. Highly effective for complex scene understanding.                |
-| `mixup`         | `float` | `0.0`         | `0.0 - 1.0`   | Blends two images and their labels, creating a composite image. Enhances the model's ability to generalize by introducing label noise and visual variability.             |
-| `copy_paste`    | `float` | `0.0`         | `0.0 - 1.0`   | Copies objects from one image and pastes them onto another, useful for increasing object instances and learning object occlusion.                                         |
-| `auto_augment`  | `str`   | `randaugment` | -             | Automatically applies a predefined augmentation policy (`randaugment`, `autoaugment`, `augmix`), optimizing for classification tasks by diversifying the visual features. |
-| `erasing`       | `float` | `0.4`         | `0.0 - 0.9`   | Randomly erases a portion of the image during classification training, encouraging the model to focus on less obvious features for recognition.                           |
-| `crop_fraction` | `float` | `1.0`         | `0.1 - 1.0`   | Crops the classification image to a fraction of its size to emphasize central features and adapt to object scales, reducing background distractions.                      |
+| 参数             | 类型     | 默认值       | 范围          | 描述                                                                                                                                                                 |
+|------------------|----------|--------------|---------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `hsv_h`          | `float`  | `0.015`      | `0.0 - 1.0`   | 通过颜色轮的一部分调整图像的色调，引入颜色变异性。帮助模型在不同光照条件下泛化。                                                                                      |
+| `hsv_s`          | `float`  | `0.7`        | `0.0 - 1.0`   | 通过一定比例改变图像的饱和度，影响颜色的强度。用于模拟不同的环境条件。                                                                                                |
+| `hsv_v`          | `float`  | `0.4`        | `0.0 - 1.0`   | 通过一定比例调整图像的亮度，帮助模型在各种光照条件下表现良好。                                                                                                         |
+| `degrees`        | `float`  | `0.0`        | `-180 - +180` | 在指定的角度范围内随机旋转图像，提高模型识别不同方向目标的能力。                                                                                                      |
+| `translate`      | `float`  | `0.1`        | `0.0 - 1.0`   | 将图像水平和垂直平移一定比例的图像大小，有助于学习检测部分可见的目标。                                                                                               |
+| `scale`          | `float`  | `0.5`        | `>=0.0`       | 按增益因子缩放图像，模拟相机不同距离的目标。                                                                                                                         |
+| `shear`          | `float`  | `0.0`        | `-180 - +180` | 通过指定的度数剪切图像，模拟从不同角度观看的效果。                                                                                                                    |
+| `perspective`    | `float`  | `0.0`        | `0.0 - 0.001` | 对图像应用随机透视变换，增强模型理解3D空间中的目标的能力。                                                                                                            |
+| `flipud`         | `float`  | `0.0`        | `0.0 - 1.0`   | 以指定的概率将图像上下翻转，增加数据变异性而不影响目标的特性。                                                                                                         |
+| `fliplr`         | `float`  | `0.5`        | `0.0 - 1.0`   | 以指定的概率将图像左右翻转，对于学习对称目标和增加数据集多样性很有用。                                                                                                 |
+| `bgr`            | `float`  | `0.0`        | `0.0 - 1.0`   | 以指定的概率将图像通道从RGB翻转为BGR，有助于提高对错误通道排序的鲁棒性。                                                                                              |
+| `mosaic`         | `float`  | `1.0`        | `0.0 - 1.0`   | 将四个训练图像组合成一个，模拟不同的场景组合和目标交互。对于复杂场景理解非常有效。                                                                                      |
+| `mixup`          | `float`  | `0.0`        | `0.0 - 1.0`   | 混合两个图像及其标签，创建合成图像。通过引入标签噪音和视觉变异性增强模型的泛化能力。                                                                                 |
+| `copy_paste`     | `float`  | `0.0`        | `0.0 - 1.0`   | 将目标从一个图像复制并粘贴到另一个图像中，增加目标实例和学习目标遮挡。                                                                                               |
+| `auto_augment`   | `str`    | `randaugment`| -             | 自动应用预定义的增强策略（`randaugment`、`autoaugment`、`augmix`），通过多样化视觉特征优化分类任务。                                                                   |
+| `erasing`        | `float`  | `0.4`        | `0.0 - 0.9`   | 在分类训练期间随机擦除图像的一部分，鼓励模型关注不太明显的特征进行识别。                                                                                             |
+| `crop_fraction`  | `float`  | `1.0`        | `0.1 - 1.0`   | 将分类图像裁剪为其大小的一部分，强调中央特征并适应目标比例，减少背景干扰。                                                                                          |
 
-These settings can be adjusted to meet the specific requirements of the dataset and task at hand. Experimenting with different values can help find the optimal augmentation strategy that leads to the best model performance.
+这些设置可以根据数据集和任务的具体要求进行调整。通过实验不同的值可以找到最佳的增强策略，从而获得最佳的模型性能。
 
-!!! info
+!!! 信息
 
-    For more information about training augmentation operations, see the [reference section](../reference/data/augment.md).
+    有关训练增强操作的更多信息，请参阅[参考部分](../reference/data/augment.md)。
 
-## Logging
+## 日志记录
 
-In training a YOLOv8 model, you might find it valuable to keep track of the model's performance over time. This is where logging comes into play. Ultralytics' YOLO provides support for three types of loggers - Comet, ClearML, and TensorBoard.
+在训练YOLOv8模型时，您可能希望跟踪模型性能随时间的变化。这就是日志记录的作用所在。Ultralytics的YOLO提供对三种日志记录器的支持 - Comet、ClearML和TensorBoard。
 
-To use a logger, select it from the dropdown menu in the code snippet above and run it. The chosen logger will be installed and initialized.
+要使用日志记录器，请从上面的代码片段中选择并运行它。所选的日志记录器将被安装并初始化。
 
 ### Comet
 
-[Comet](../integrations/comet.md) is a platform that allows data scientists and developers to track, compare, explain and optimize experiments and models. It provides functionalities such as real-time metrics, code diffs, and hyperparameters tracking.
+[Comet](../integrations/comet.md)是一个平台，允许数据科学家和开发人员跟踪、比较、解释和优化实验和模型。它提供实时指标、代码差异和超参数跟踪等功能。
 
-To use Comet:
+要使用Comet：
 
-!!! Example
+!!! 示例
 
     === "Python"
 
@@ -279,15 +279,15 @@ To use Comet:
         comet_ml.init()
         ```
 
-Remember to sign in to your Comet account on their website and get your API key. You will need to add this to your environment variables or your script to log your experiments.
+请记住在Comet网站上登录您的帐户并获取您的API密钥。您需要将其添加到环境变量或脚本中以记录您的实验。
 
 ### ClearML
 
-[ClearML](https://www.clear.ml/) is an open-source platform that automates tracking of experiments and helps with efficient sharing of resources. It is designed to help teams manage, execute, and reproduce their ML work more efficiently.
+[ClearML](https://www.clear.ml/)是一个开源平台，自动化跟踪实验并帮助高效共享资源。旨在帮助团队更高效地管理、执行和重现他们的机器学习工作。
 
-To use ClearML:
+要使用ClearML：
 
-!!! Example
+!!! 示例
 
     === "Python"
 
@@ -298,33 +298,34 @@ To use ClearML:
         clearml.browser_login()
         ```
 
-After running this script, you will need to sign in to your ClearML account on the browser and authenticate your session.
+运行此脚本后，您需要在浏览器中登录ClearML帐户并认证您的会话。
 
 ### TensorBoard
 
-[TensorBoard](https://www.tensorflow.org/tensorboard) is a visualization toolkit for TensorFlow. It allows you to visualize your TensorFlow graph, plot quantitative metrics about the execution of your graph, and show additional data like images that pass through it.
+[TensorBoard](https://www.tensorflow.org/tensorboard)是一个用于TensorFlow的可视化工具包。它允许您可视化TensorFlow图，绘制图的执行定量指标，并显示通过图的附加数据，如图像。
 
-To use TensorBoard in [Google Colab](https://colab.research.google.com/github/ultralytics/ultralytics/blob/main/examples/tutorial.ipynb):
+要在[Google Colab](https://colab.research.google.com/github/ultralytics/ultralytics/blob/main/examples/tutorial.ipynb)中使用TensorBoard：
 
-!!! Example
+!!! 示例
 
     === "CLI"
 
         ```bash
         load_ext tensorboard
-        tensorboard --logdir ultralytics/runs  # replace with 'runs' directory
+        tensorboard --logdir ultralytics/runs  # 替换为 'runs' 目录
         ```
 
-To use TensorBoard locally run the below command and view results at http://localhost:6006/.
+要在本地使用TensorBoard，请运行以下命令并在http://localhost:6006/查看结果。
 
-!!! Example
+!!! 示例
 
     === "CLI"
 
         ```bash
-        tensorboard --logdir ultralytics/runs  # replace with 'runs' directory
+        tensorboard --logdir ultralytics/runs  # 替换为 'runs' 目录
         ```
 
-This will load TensorBoard and direct it to the directory where your training logs are saved.
+这将加载TensorBoard并将其指向保存训练日志的目录。
 
-After setting up your logger, you can then proceed with your model training. All training metrics will be automatically logged in your chosen platform, and you can access these logs to monitor your model's performance over time, compare different models, and identify areas for improvement.
+设置日志记录器后，您可以继续进行模型训练。所有训练指标将自动记录在您选择的平台中，您可以访问这些日志以监控模型性能随时间的变化，比较不同的模型，并确定需要改进的地方。
+
